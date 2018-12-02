@@ -7,7 +7,7 @@ SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
-	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/sputnikvm.lib -ldl -lm"
+	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/libsputnikvm.lib -ldl -lm"
 else
 	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/libsputnikvm.a -ldl -lm"
 endif
@@ -32,6 +32,7 @@ deps:
 	rm -rf $(SPUTNIKVM_PATH) && mkdir $(SPUTNIKVM_PATH)
 	cd $(SPUTNIKVM_PATH) && git clone https://github.com/gallactic/sputnikvm-ffi.git .
 	cd $(SPUTNIKVM_PATH)/c/ffi && cargo build --release
+	cd $(SPUTNIKVM_PATH)/c/ffi/target/release && dir
 
 ########################################
 ### Build Gallactic
