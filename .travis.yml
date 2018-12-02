@@ -11,27 +11,27 @@ matrix:
       dist: trusty
       go: 1.10.x
       script: make && make docker
-      
+
     - os: linux
       dist: trusty
       go: master
       script: make
-      
+
     - os: osx
       go: 1.10.x
       script: make
-      
+
     - os: osx
       go: master
       script: make
-      
+
     - os: windows
       go: 1.10.x
-      script: make
-      
+      script: mingw32-make
+
     - os: windows
       go: master
-      script: make 
+      script: mingw32-make
 
 
 install:
@@ -39,7 +39,6 @@ install:
   - curl -sSf rustup-install.sh https://sh.rustup.rs > rustup-install.sh
   - sh rustup-install.sh -y
   - export PATH="$HOME/.cargo/bin:$PATH"
-  - if [[ ( "$TRAVIS_OS_NAME" == "windows" ) ]]; then cp mingw32-make.exe make.exe; fi;
 
 deploy:
   provider: releases
