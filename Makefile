@@ -7,7 +7,11 @@ SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/libsputnikvm.a -ldl -lm"
-
+ifdef OS
+   MAKE = mingw32-make]
+else
+   MAKE = make
+endif
 
 all: tools deps build install test test_release
 
@@ -27,11 +31,7 @@ deps:
 	@echo "Building Sputnikvm Library..."
 	rm -rf $(SPUTNIKVM_PATH) && mkdir $(SPUTNIKVM_PATH)
 	cd $(SPUTNIKVM_PATH) && git clone https://github.com/gallactic/sputnikvm-ffi.git .
-	ifdef WIN32
-		cd $(SPUTNIKVM_PATH)/c && mingw32-make build
-	else
-		cd $(SPUTNIKVM_PATH)/c && make build
-	endif
+	cd $(SPUTNIKVM_PATH)/c && $(MAKE) build
 
 ########################################
 ### Build Gallactic
