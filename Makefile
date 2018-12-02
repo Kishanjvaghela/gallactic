@@ -27,7 +27,11 @@ deps:
 	@echo "Building Sputnikvm Library..."
 	rm -rf $(SPUTNIKVM_PATH) && mkdir $(SPUTNIKVM_PATH)
 	cd $(SPUTNIKVM_PATH) && git clone https://github.com/gallactic/sputnikvm-ffi.git .
-	cd $(SPUTNIKVM_PATH)/c && make build
+	ifdef WIN32
+		cd $(SPUTNIKVM_PATH)/c && mingw32-make build
+	else
+		cd $(SPUTNIKVM_PATH)/c && make build
+	endif
 
 ########################################
 ### Build Gallactic
