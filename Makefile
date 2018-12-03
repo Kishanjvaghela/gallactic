@@ -7,7 +7,7 @@ SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
-	CFLAGS=CGO_LDFLAGS=-L"$(SPUTNIKVM_PATH)/c/ffi/target/release/sputnikvm_ffi.dll.lib -ldl -lm"
+	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/ffi/target/release/sputnikvm_ffi.lib -lws2_32 -luserenv"
 else
 	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/libsputnikvm.a -ldl -lm"
 endif
