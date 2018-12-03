@@ -35,6 +35,7 @@ matrix:
 
 
 install:
+  - gcc --version
   # installing rust and cargo
   - curl -sSf rustup-install.sh https://sh.rustup.rs > rustup-install.sh
   - sh rustup-install.sh -y
