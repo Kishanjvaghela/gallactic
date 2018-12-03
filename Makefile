@@ -3,12 +3,13 @@ GOTOOLS = \
 	gopkg.in/alecthomas/gometalinter.v2
 
 PACKAGES=$(shell go list ./... | grep -v '/vendor/')
-SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
-	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/ffi/target/release/sputnikvm_ffi.lib -lws2_32 -luserenv"
+	SPUTNIKVM_PATH = $(GOPATH)\src\github.com\gallactic\sputnikvm-ffi
+	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)\c\ffi\target\release\sputnikvm_ffi.lib -lws2_32 -luserenv"
 else
+	SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/libsputnikvm.a -ldl -lm"
 endif
 
