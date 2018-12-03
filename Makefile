@@ -3,13 +3,15 @@ GOTOOLS = \
 	gopkg.in/alecthomas/gometalinter.v2
 
 PACKAGES=$(shell go list ./... | grep -v '/vendor/')
-SPUTNIKVM_PATH = $(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
+SPUTNIKVM_PATH=$(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
-	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/ffi/target/release/sputnikvm_ffi.lib -lws2_32 -luserenv"
+	MAKE=mingw32-make
+	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/sputnikvm.lib -lws2_32 -luserenv"
 else
-	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/ffi/target/release/libsputnikvm.a -ldl -lm"
+	MAKE=make
+	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/libsputnikvm.a -ldl -lm"
 endif
 
 
@@ -31,7 +33,7 @@ deps:
 	@echo "Building Sputnikvm Library..."
 	rm -rf $(SPUTNIKVM_PATH) && mkdir $(SPUTNIKVM_PATH)
 	cd $(SPUTNIKVM_PATH) && git clone https://github.com/gallactic/sputnikvm-ffi.git .
-	cd $(SPUTNIKVM_PATH)/c/ffi && cargo build --release --no-default-features --features "std rlp"
+	cd $(SPUTNIKVM_PATH)/c && $(MAKE) build
 
 ########################################
 ### Build Gallactic
