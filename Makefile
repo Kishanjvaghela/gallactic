@@ -8,7 +8,7 @@ TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
 	MAKE=mingw32-make
-	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/sputnikvm.lib -lws2_32 -luserenv"
+	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/sputnikvm.lib -lws2_32 -luserenv -lm"
 else
 	MAKE=make
 	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/libsputnikvm.a -ldl -lm"
