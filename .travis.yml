@@ -42,3 +42,4 @@ deploy:
   skip_cleanup: true
   on:
     branch: travis-deploy
+    condition: $TRAVIS_GO_VERSION =~ ^1\.10	
