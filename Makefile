@@ -7,11 +7,13 @@ SPUTNIKVM_PATH=$(GOPATH)/src/github.com/gallactic/sputnikvm-ffi
 TAGS=-tags 'gallactic'
 LDFLAGS= -ldflags "-X github.com/gallactic/gallactic/version.GitCommit=`git rev-parse --short=8 HEAD`"
 ifdef OS
-	MAKE=mingw32-make
-	CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/sputnikvm.lib -lws2_32 -luserenv -lm"
+OUTPUT=-o build/gallactic.exe
+MAKE=mingw32-make
+CFLAGS=CGO_LDFLAGS="-Wl,--allow-multiple-definition $(SPUTNIKVM_PATH)/c/sputnikvm.lib -lws2_32 -luserenv -lm"
 else
-	MAKE=make
-	CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/libsputnikvm.a -ldl -lm"
+OUTPUT=-o build/gallactic
+MAKE=make
+CFLAGS=CGO_LDFLAGS="$(SPUTNIKVM_PATH)/c/libsputnikvm.a -ldl -lm"
 endif
 
 
@@ -38,7 +40,7 @@ deps:
 ########################################
 ### Build Gallactic
 build:
-	$(CFLAGS) go build $(LDFLAGS) $(TAGS) ./cmd/gallactic/
+	$(CFLAGS) go build $(LDFLAGS) $(TAGS) $(OUTPUT) ./cmd/gallactic/
 
 install:
 	$(CFLAGS) go install $(LDFLAGS) $(TAGS) ./cmd/gallactic
